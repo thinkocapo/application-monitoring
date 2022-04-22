@@ -25,10 +25,10 @@ if FLASK_ENV == "test":
     # Connect via TCP https://cloud.google.com/sql/docs/postgres/connect-overview?_ga=2.75606289.-504393901.1597779336#expandable-1
     print("> ENVIRONMENT test ")
     # ORIGINAL
-    # db = create_engine('postgresql://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':5432/' + DATABASE)
+    db = create_engine('postgresql://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':5432/' + DATABASE)
     
     # URL ACCORDING TO DOCUMENTATION
-    db = create_engine('postgresql+pg8000://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':5432/' + DATABASE)
+    # db = create_engine('postgresql+pg8000://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':5432/' + DATABASE)
     
     # FULL CODE EXAMPLE ACCORDING TO DOCUMENTATION
     # db = sqlalchemy.create_engine(
