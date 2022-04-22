@@ -22,9 +22,32 @@ class DatabaseConnectionError (Exception):
 UNPACK_FROM_ERROR="unpack_from requires a buffer of at least 5 bytes for unpacking 5 bytes at offset"
 
 if FLASK_ENV == "test":
+    # Connect via TCP https://cloud.google.com/sql/docs/postgres/connect-overview?_ga=2.75606289.-504393901.1597779336#expandable-1
     print("> ENVIRONMENT test ")
-    db = create_engine('postgresql://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':5432/' + DATABASE)
+    # ORIGINAL
+    # db = create_engine('postgresql://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':5432/' + DATABASE)
+    
+    # URL ACCORDING TO DOCUMENTATION
+    db = create_engine('postgresql+pg8000://' + USERNAME + ':' + PASSWORD + '@' + HOST + ':5432/' + DATABASE)
+    
+    # FULL CODE EXAMPLE ACCORDING TO DOCUMENTATION
+    # db = sqlalchemy.create_engine(
+    #     # postgresql+pg8000://<db_user>:<db_pass>@<db_host>:<db_port>/<db_name>
+    #     # AttributeError: type object 'URL' has no attribute 'create'
+    #     # sqlalchemy.engine.url.URL.create(
+    #     sqlalchemy.engine.url.URL( 
+    #         drivername="postgresql+pg8000",
+    #         username=USERNAME,  # e.g. "my-database-user"
+    #         password=PASSWORD,  # e.g. "my-database-password"
+    #         host=HOST,  # e.g. "127.0.0.1"
+    #         port=5432,  # e.g. 5432
+    #         database=DATABASE  # e.g. "my-database-name"
+    #     ),
+    #     # **db_config
+    # )
+    print("create_engine COMPLETE")
 else:
+    # Connect via Unix Sockets https://cloud.google.com/sql/docs/postgres/connect-overview?_ga=2.75606289.-504393901.1597779336#expandable-2
     print("> ENVIRONMENT production ")
     print("> CLOUD_SQL_CONNECTION_NAME", CLOUD_SQL_CONNECTION_NAME)
     db = sqlalchemy.create_engine(
@@ -44,7 +67,9 @@ def get_products():
     results = []
     try:
         with sentry_sdk.start_span(op="get_products", description="db.connect"):
+            print(">>>>>>")
             connection = db.connect()
+            print(">>>>>>PRODUCTS COMPLETE")
 
         with sentry_sdk.start_span(op="get_products", description="db.query") as span:
             n = weighter(operator.le, 12)

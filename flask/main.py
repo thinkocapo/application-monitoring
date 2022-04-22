@@ -96,11 +96,11 @@ def products():
         sentry_sdk.capture_exception(err)
         raise(err)
 
-    try:
-        r = requests.get(RUBY_BACKEND + "/api")
-        r.raise_for_status() # returns an HTTPError object if an error has occurred during the process
-    except Exception as err:
-        sentry_sdk.capture_exception(err)
+    # try:
+    #     r = requests.get(RUBY_BACKEND + "/api")
+    #     r.raise_for_status() # returns an HTTPError object if an error has occurred during the process
+    # except Exception as err:
+    #     sentry_sdk.capture_exception(err)
         
     return rows
 
@@ -113,11 +113,11 @@ def products_join():
         sentry_sdk.capture_exception(err)
         raise(err)
 
-    try:
-        r = requests.get(RUBY_BACKEND + "/api")
-        r.raise_for_status() # returns an HTTPError object if an error has occurred during the process
-    except Exception as err:
-        sentry_sdk.capture_exception(err)
+    # try:
+    #     r = requests.get(RUBY_BACKEND + "/api")
+    #     r.raise_for_status() # returns an HTTPError object if an error has occurred during the process
+    # except Exception as err:
+    #     sentry_sdk.capture_exception(err)
 
     return rows
 
